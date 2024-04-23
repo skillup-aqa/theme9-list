@@ -11,8 +11,8 @@ import static org.testng.Assert.assertThrows;
 
 public class CustomListTests {
 
-    ICustomList emptyList;
-    ICustomList list;
+    CustomList emptyList;
+    CustomList list;
     @BeforeMethod
     public void initEmptyList() {
         emptyList = new CustomList();
@@ -42,6 +42,11 @@ public class CustomListTests {
         sa.assertEquals(emptyList.get(0), "A");
         sa.assertEquals(emptyList.get(1), "B");
         sa.assertEquals(emptyList.get(2), "C");
+    }
+
+    @Test
+    public void testGetOutOfBounds() {
+        assertThrows(IndexOutOfBoundsException.class, () -> list.get(3));
     }
 
     @Test
@@ -111,6 +116,16 @@ public class CustomListTests {
     }
 
     @Test
+    public void testInsertAtTheBegging() {
+        list.insert(0, "D");
+        assertEquals(list.size(), 4);
+        assertEquals(list.get(0), "D");
+        assertEquals(list.get(1), "A");
+        assertEquals(list.get(2), "B");
+        assertEquals(list.get(3), "C");
+    }
+
+    @Test
     public void testInsertOutOfBounds() {
         assertThrows(IndexOutOfBoundsException.class, () -> list.insert(4, "D"));
     }
@@ -134,6 +149,15 @@ public class CustomListTests {
         assertEquals(removed, "B");
         assertEquals(list.size(), 2);
         assertEquals(list.get(0), "A");
+        assertEquals(list.get(1), "C");
+    }
+
+    @Test
+    public void testRemoveFirst() {
+        String removed = (String) list.remove(0);
+        assertEquals(removed, "A");
+        assertEquals(list.size(), 2);
+        assertEquals(list.get(0), "B");
         assertEquals(list.get(1), "C");
     }
 
