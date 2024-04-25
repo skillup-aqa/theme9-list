@@ -8,6 +8,7 @@ public class ToTestLists {
         List01.push(16);
 
         System.out.println(List01);
+        System.out.println(List01.size());
     }
 
 }
