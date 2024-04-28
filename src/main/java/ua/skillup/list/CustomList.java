@@ -1,6 +1,7 @@
 package ua.skillup.list;
 
 //This is directional cyclic, should be rewritten to unidirectional cyclic (25 % 4 + 1 = 2)
+
 import java.util.NoSuchElementException;
 
 public class CustomList implements ICustomList {
@@ -89,7 +90,7 @@ public class CustomList implements ICustomList {
     @Override
     public void insert(int index, Object obj) {
         if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("The index is incorrect");
         }
         if (index == 0) {
             unshift(obj);
@@ -105,6 +106,8 @@ public class CustomList implements ICustomList {
                 Node newNode = new Node(obj);
                 prev.next = newNode;
                 newNode.next = current;
+                size++;
+                return;
             }
             prev = current;
             current = current.next;
@@ -116,12 +119,44 @@ public class CustomList implements ICustomList {
 
     @Override
     public int indexOf(Object obj) {
-        return 0;
+        Node current = head;
+        int i = 0;
+
+        while (current != null) {
+            if (current.value == obj) {
+                return i;
+            }
+
+            current = current.next;
+            i++;
+        }
+
+        return -1;
     }
 
     @Override
     public Object remove(int index) {
-        return false;
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("The index is incorrect");
+        }
+        Node previous = null;
+        Node current = head;
+        int i = 0;
+
+        while (current != null) {
+
+            if (index == i) {
+                previous.next = current.next;
+                size--;
+                return current.value;
+            }
+
+            previous = current;
+            current = current.next;
+            i++;
+        }
+
+        return null;
     }
 
     @Override
