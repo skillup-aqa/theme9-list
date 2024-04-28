@@ -1,5 +1,7 @@
 package ua.skillup.list;
 
+import java.util.NoSuchElementException;
+
 public class CustomList implements ICustomList {
 
     private static class Node {
@@ -44,21 +46,70 @@ public class CustomList implements ICustomList {
 
     @Override
     public Object pop() {
-        return null;
+        if (head == null) {
+            throw new NoSuchElementException("There is an empty list. Pop can't be applied");
+        }
+        Node current = head;
+        Node previous = null;
+        while (current.next != null) {
+            previous = current;
+            current = current.next;
+        }
+        if (previous == null) {
+            head = null;
+        } else {
+            previous.next = null;
+        }
+        size--;
+
+
+        return current.value;
     }
 
     @Override
     public Object shift() {
-        return null;
+        if (head == null) {
+            throw new NoSuchElementException("There is an empty list. Shift can't be applied");
+        }
+        Node current = head;
+        head = head.next;
+        size--;
+        return current.value;
     }
 
     @Override
     public void unshift(Object obj) {
-
+        Node newHead = new Node(obj);
+        newHead.next = head;
+        head = newHead;
+        size++;
     }
 
     @Override
     public void insert(int index, Object obj) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (index == 0) {
+            unshift(obj);
+            return;
+        }
+
+        Node current = head;
+        Node prev = null;
+        int i = 0;
+
+        while (current != null) {
+            if (index == i) {
+                Node newNode = new Node(obj);
+                prev.next = newNode;
+                newNode.next = current;
+            }
+            prev = current;
+            current = current.next;
+            i++;
+
+        }
 
     }
 
@@ -82,9 +133,10 @@ public class CustomList implements ICustomList {
 
             Node current = head;
             do {
-                builder.append(current.value.toString()+"\n");
+                builder.append(current.value.toString() + "\n");
                 current = current.next;
             } while (current != null);
+            builder.append("Size of the list is: ").append(size()).append("\n");
 
             return builder.toString();
         }
