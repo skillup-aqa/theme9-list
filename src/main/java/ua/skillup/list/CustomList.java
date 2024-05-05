@@ -1,6 +1,6 @@
 package ua.skillup.list;
 
-//This is directional cyclic, should be rewritten to unidirectional cyclic (25 % 4 + 1 = 2)
+//This is directional non-cyclic, should be rewritten to directional cyclic (25 % 4 + 1 = 2)
 
 import java.util.NoSuchElementException;
 
