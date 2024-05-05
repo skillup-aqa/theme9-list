@@ -23,8 +23,8 @@ public class ToTestLists {
         System.out.println("List with added first element 15: \n" + List01);
 
         List01.push(22);
-//        List01.push(23);
-        System.out.println(List01);
+        List01.push(23);
+        System.out.println("Added 22 to the end: \n" + List01);
 //
 //        List01.insert(1, 17);
 //        System.out.println("17 is inserted on 01 position: \n" + List01);

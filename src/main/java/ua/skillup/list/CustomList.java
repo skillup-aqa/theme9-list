@@ -72,7 +72,8 @@ public class CustomList implements ICustomList {
             current = current.next;
         }
         current.next = new Node(obj);
-        current.next.next = head.first;
+        current = current.next;
+        current.next = head.first;
         size++;
     }
 
@@ -118,7 +119,12 @@ public class CustomList implements ICustomList {
         Node newHead = new Node(obj);
         newHead.next = head;
         head = newHead;
+        Node current = head;
+        while (current.next != head.first) {
+            current = current.next;
+        }
         head.first = new Node(obj);
+        current.next = head.first;
         size++;
     }
 
