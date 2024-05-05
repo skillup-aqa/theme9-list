@@ -1,14 +1,16 @@
 package ua.skillup.list;
 
-//This is directional non-cyclic, should be rewritten to directional cyclic (25 % 4 + 1 = 2)
+//directional cyclic (25 % 4 + 1 = 2)
 
 import java.util.NoSuchElementException;
 
 public class CustomList implements ICustomList {
 
     private static class Node {
+        //refactored for directional cyclic
         Object value;
         Node next;
+        Node first;
 
         public Node(Object value) {
             this.value = value;
@@ -19,6 +21,7 @@ public class CustomList implements ICustomList {
 
     private Node head;
 
+
     @Override
     public int size() {
         return size;
@@ -26,41 +29,70 @@ public class CustomList implements ICustomList {
 
     @Override
     public Object get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node current = head;
+        int i = 0;
+
+        while (current != null) {
+            if (index == i) {
+                return current.value;
+            }
+            i++;
+            current = current.next;
+        }
+
         return null;
     }
 
+
     @Override
     public void push(Object obj) {
+        //refactored for directional cyclic
         if (head == null) {
             head = new Node(obj);
+            head.first = new Node(obj);
+            head.next = head.first;
             size++;
             return;
         }
 
         Node current = head;
-        while (current.next != null) {
+        if (size == 1) {
+            current.next = new Node(obj);
+            current = current.next;
+            current.next = head.first;
+            size++;
+            return;
+        }
+
+        while (current.next != head.first) {
             current = current.next;
         }
         current.next = new Node(obj);
+        current.next.next = head.first;
         size++;
-
     }
+
 
     @Override
     public Object pop() {
+        //refactored for directional cyclic
         if (head == null) {
             throw new NoSuchElementException("There is an empty list. Pop can't be applied");
         }
         Node current = head;
         Node previous = null;
-        while (current.next != null) {
+        while (current.next != head.first) {
             previous = current;
             current = current.next;
         }
         if (previous == null) {
             head = null;
         } else {
-            previous.next = null;
+            previous.next = head.first;
         }
         size--;
 
@@ -70,11 +102,13 @@ public class CustomList implements ICustomList {
 
     @Override
     public Object shift() {
+        //refactored for directional cyclic
         if (head == null) {
             throw new NoSuchElementException("There is an empty list. Shift can't be applied");
         }
         Node current = head;
         head = head.next;
+        head.first = head;
         size--;
         return current.value;
     }
@@ -84,6 +118,7 @@ public class CustomList implements ICustomList {
         Node newHead = new Node(obj);
         newHead.next = head;
         head = newHead;
+        head.first = new Node(obj);
         size++;
     }
 
@@ -168,11 +203,11 @@ public class CustomList implements ICustomList {
             StringBuilder builder = new StringBuilder("Orders List: \n");
 
             Node current = head;
-            do {
+            for (int i = 0; i <size; i++) {
                 builder.append(current.value.toString() + "\n");
                 current = current.next;
-            } while (current != null);
-            builder.append("Size of the list is: ").append(size()).append("\n");
+            }
+            builder.append("Size of the list is: ").append(size()).append("; First value " + head.first.value).append("\n");
 
             return builder.toString();
         }
