@@ -117,6 +117,7 @@ public class CustomList implements ICustomList {
 
     @Override
     public void unshift(Object obj) {
+        //refactored for directional cyclic
         Node newHead = new Node(obj);
         newHead.next = head;
         head = newHead;
@@ -131,6 +132,7 @@ public class CustomList implements ICustomList {
 
     @Override
     public void insert(int index, Object obj) {
+        //refactored for directional cyclic
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("The index is incorrect");
         }
@@ -161,10 +163,11 @@ public class CustomList implements ICustomList {
 
     @Override
     public int indexOf(Object obj) {
+        //refactored for directional cyclic
         Node current = head;
         int i = 0;
 
-        while (current != null) {
+        while (current.next != head.first) {
             if (current.value == obj) {
                 return i;
             }

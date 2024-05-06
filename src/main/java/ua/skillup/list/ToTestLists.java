@@ -34,14 +34,21 @@ public class ToTestLists {
 
         List01.insert(2, 2);
         System.out.println("02 is inserted on 02 position: \n" + List01);
-//
-//        System.out.println("Index of incorrect object: " + List01.indexOf(150));
-//        System.out.println("Index of the correct object: " + List01.indexOf(14));
+
+        List01.pop();
+        System.out.println("Removed last element: \n" + List01);
+
+        CustomList List02 = new CustomList();
+//        List02.pop();
+
+
+        System.out.println("Index of incorrect object: " + List01.indexOf(150));
+        System.out.println("Index of the correct object: " + List01.indexOf(20));
 //
 //        List01.remove(2);
 //        System.out.println("The List with removed element with index 2: \n" + List01);
 
-        // My Homework is the unidirectional cyclic (25 % 4 + 1 = 2)
+        // My Homework is the directional cyclic (25 % 4 + 1 = 2)
 
 
     }
