@@ -29,6 +29,7 @@ public class CustomList implements ICustomList {
 
     @Override
     public Object get(int index) {
+        //refactored for directional cyclic
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
@@ -36,7 +37,7 @@ public class CustomList implements ICustomList {
         Node current = head;
         int i = 0;
 
-        while (current != null) {
+        while (current.next != head.first) {
             if (index == i) {
                 return current.value;
             }

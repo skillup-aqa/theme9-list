@@ -44,8 +44,10 @@ public class ToTestLists {
         System.out.println("Index of incorrect object: " + List01.indexOf(150));
         System.out.println("Index of the correct object: " + List01.indexOf(20));
 
-        System.out.println(List01.remove(5));
+        System.out.println("Removed element: " + List01.remove(5));
         System.out.println("The List with removed element with index 5: \n" + List01);
+
+        System.out.println("The 4th element is : " + List01.get(3));
 
         // My Homework is the directional cyclic (25 % 4 + 1 = 2)
 
