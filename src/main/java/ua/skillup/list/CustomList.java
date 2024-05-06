@@ -181,6 +181,7 @@ public class CustomList implements ICustomList {
 
     @Override
     public Object remove(int index) {
+        //refactored for directional cyclic
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("The index is incorrect");
         }
@@ -188,7 +189,7 @@ public class CustomList implements ICustomList {
         Node current = head;
         int i = 0;
 
-        while (current != null) {
+        while (current.next != head.first) {
 
             if (index == i) {
                 previous.next = current.next;
@@ -213,7 +214,7 @@ public class CustomList implements ICustomList {
             StringBuilder builder = new StringBuilder("Orders List: \n");
 
             Node current = head;
-            for (int i = 0; i <size; i++) {
+            for (int i = 0; i < size; i++) {
                 builder.append(current.value.toString() + "\n");
                 current = current.next;
             }

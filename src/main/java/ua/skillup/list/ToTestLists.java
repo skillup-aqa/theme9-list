@@ -28,7 +28,6 @@ public class ToTestLists {
         System.out.println("Added 22 and 23 to the end: \n" + List01);
 
 
-
         List01.insert(0, 0);
         System.out.println("00 is inserted on 00 position: \n" + List01);
 
@@ -44,9 +43,9 @@ public class ToTestLists {
 
         System.out.println("Index of incorrect object: " + List01.indexOf(150));
         System.out.println("Index of the correct object: " + List01.indexOf(20));
-//
-//        List01.remove(2);
-//        System.out.println("The List with removed element with index 2: \n" + List01);
+
+        System.out.println(List01.remove(5));
+        System.out.println("The List with removed element with index 5: \n" + List01);
 
         // My Homework is the directional cyclic (25 % 4 + 1 = 2)
 
