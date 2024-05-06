@@ -24,10 +24,16 @@ public class ToTestLists {
 
         List01.push(22);
         List01.push(23);
-        System.out.println("Added 22 to the end: \n" + List01);
-//
-//        List01.insert(1, 17);
-//        System.out.println("17 is inserted on 01 position: \n" + List01);
+        List01.push(24);
+        System.out.println("Added 22 and 23 to the end: \n" + List01);
+
+
+
+        List01.insert(0, 0);
+        System.out.println("00 is inserted on 00 position: \n" + List01);
+
+        List01.insert(2, 2);
+        System.out.println("02 is inserted on 02 position: \n" + List01);
 //
 //        System.out.println("Index of incorrect object: " + List01.indexOf(150));
 //        System.out.println("Index of the correct object: " + List01.indexOf(14));
