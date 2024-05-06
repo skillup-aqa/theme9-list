@@ -49,6 +49,22 @@ public class ToTestLists {
 
         System.out.println("The 4th element is : " + List01.get(3));
 
+        System.out.println("Index of 22: " + List01.indexOf(22));
+
+        //Test cases from tests
+
+        CustomList emptyList;
+        CustomList list;
+        list = new CustomList();
+        list.push("A");
+        list.push("B");
+        list.push("C");
+        list.push("D");
+        System.out.println(list);
+        System.out.println(list.indexOf("D"));
+
+
+
         // My Homework is the directional cyclic (25 % 4 + 1 = 2)
 
 

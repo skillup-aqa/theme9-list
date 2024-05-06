@@ -61,13 +61,13 @@ public class CustomList implements ICustomList {
         }
 
         Node current = head;
-        if (size == 1) {
-            current.next = new Node(obj);
-            current = current.next;
-            current.next = head.first;
-            size++;
-            return;
-        }
+//        if (size == 1) {
+//            current.next = new Node(obj);
+//            current = current.next;
+//            current.next = head.first;
+//            size++;
+//            return;
+//        }
 
         while (current.next != head.first) {
             current = current.next;
@@ -169,12 +169,15 @@ public class CustomList implements ICustomList {
         int i = 0;
 
         while (current.next != head.first) {
-            if (current.value == obj) {
+            if (current.value.equals(obj)) {
+                return i;
+            }
+            i++;
+            current = current.next;
+            if (current.value.equals(obj)) {
                 return i;
             }
 
-            current = current.next;
-            i++;
         }
 
         return -1;
