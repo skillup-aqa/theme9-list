@@ -10,7 +10,7 @@ public class CustomList implements ICustomList {
         //refactored for directional cyclic
         Object value;
         Node next;
-        Node first;
+        //Node first;
 
         public Node(Object value) {
             this.value = value;
@@ -19,7 +19,7 @@ public class CustomList implements ICustomList {
 
     private int size = 0;
 
-    private Node head;
+    private Node head = null;
 
 
     @Override
@@ -30,7 +30,7 @@ public class CustomList implements ICustomList {
     @Override
     public Object get(int index) {
         //refactored for directional cyclic
-        if (index < 0 || index >= size) {
+       /* if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -44,7 +44,7 @@ public class CustomList implements ICustomList {
             i++;
             current = current.next;
         }
-
+        */
         return null;
     }
 
@@ -52,29 +52,21 @@ public class CustomList implements ICustomList {
     @Override
     public void push(Object obj) {
         //refactored for directional cyclic
+        Node newNode = new Node(obj);
         if (head == null) {
-            head = new Node(obj);
-            head.first = new Node(obj);
-            head.next = head.first;
+            head = newNode;
+            head.next = head;
             size++;
             return;
         }
 
         Node current = head;
-//        if (size == 1) {
-//            current.next = new Node(obj);
-//            current = current.next;
-//            current.next = head.first;
-//            size++;
-//            return;
-//        }
 
-        while (current.next != head.first) {
+        while (current.next != head) {
             current = current.next;
         }
-        current.next = new Node(obj);
-        current = current.next;
-        current.next = head.first;
+        current.next = newNode;
+        newNode.next = head;
         size++;
 
     }
@@ -83,24 +75,24 @@ public class CustomList implements ICustomList {
     @Override
     public Object pop() {
         //refactored for directional cyclic
+
         if (head == null) {
             throw new NoSuchElementException("There is an empty list. Pop can't be applied");
         }
-        Node current = head;
-        Node previous = null;
-        while (current.next != head.first) {
-            previous = current;
-            current = current.next;
-        }
-        if (previous == null) {
+        Node deleted;
+        if (head.next == head) {
+            deleted = head;
             head = null;
         } else {
-            previous.next = head.first;
+            Node current = head;
+            while (current.next != head) {
+            current = current.next;
+        }
+        deleted = current;
+        current.next = head;
         }
         size--;
-
-
-        return current.value;
+        return deleted.value;
     }
 
     @Override
@@ -110,15 +102,25 @@ public class CustomList implements ICustomList {
             throw new NoSuchElementException("There is an empty list. Shift can't be applied");
         }
         Node current = head;
-        head = head.next;
-        head.first = head;
+        Node deleted = head;
+        if (head.next == head) {
+            head = null;
+        } else {
+            while (current.next != head) {
+                current = current.next;
+            }
+            current.next = head.next;
+            head = head.next;
+        }
+
         size--;
-        return current.value;
+        return deleted.value;
     }
 
     @Override
     public void unshift(Object obj) {
         //refactored for directional cyclic
+        /*
         Node newHead = new Node(obj);
         newHead.next = head;
         head = newHead;
@@ -129,11 +131,14 @@ public class CustomList implements ICustomList {
         head.first = new Node(obj);
         current.next = head.first;
         size++;
+
+         */
     }
 
     @Override
     public void insert(int index, Object obj) {
         //refactored for directional cyclic
+        /*
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("The index is incorrect");
         }
@@ -160,11 +165,15 @@ public class CustomList implements ICustomList {
 
         }
 
+         */
+
     }
+
 
     @Override
     public int indexOf(Object obj) {
         //refactored for directional cyclic
+        /*
         Node current = head;
         int i = 0;
 
@@ -181,11 +190,16 @@ public class CustomList implements ICustomList {
         }
 
         return -1;
+
+         */
+        return -1; //заглушка
     }
+
 
     @Override
     public Object remove(int index) {
         //refactored for directional cyclic
+        /*
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("The index is incorrect");
         }
@@ -206,8 +220,12 @@ public class CustomList implements ICustomList {
             i++;
         }
 
+         */
+
         return null;
+
     }
+
 
     @Override
     public String toString() {
@@ -222,12 +240,14 @@ public class CustomList implements ICustomList {
                 builder.append(current.value.toString() + "\n");
                 current = current.next;
             }
-            builder.append("Size of the list is: ").append(size()).append("; First value " + head.first.value).append("\n");
+            builder.append("Size of the list is: ").append(size()).append("; First value " + head.value).append("\n");
 
             return builder.toString();
         }
     }
+
 }
+
 
 
 
