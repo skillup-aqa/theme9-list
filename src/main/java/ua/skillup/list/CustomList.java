@@ -30,21 +30,19 @@ public class CustomList implements ICustomList {
     @Override
     public Object get(int index) {
         //refactored for directional cyclic
-       /* if (index < 0 || index >= size) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
 
         Node current = head;
-        int i = 0;
 
-        while (current.next != head.first) {
+        for (int i = 0; i < size; i++) {
             if (index == i) {
                 return current.value;
             }
-            i++;
-            current = current.next;
-        }
-        */
+            current = current.next;}
+
+
         return null;
     }
 
@@ -120,25 +118,27 @@ public class CustomList implements ICustomList {
     @Override
     public void unshift(Object obj) {
         //refactored for directional cyclic
-        /*
-        Node newHead = new Node(obj);
-        newHead.next = head;
-        head = newHead;
-        Node current = head;
-        while (current.next != head.first) {
-            current = current.next;
-        }
-        head.first = new Node(obj);
-        current.next = head.first;
-        size++;
+        Node newNode = new Node(obj);
+        if (head == null) {
+            head = newNode;
+            head.next = head;
+        } else {
+            Node current = head;
+            while (current.next != head) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.next = head;
+            head = newNode;
+            size++;
 
-         */
+        }
     }
 
     @Override
     public void insert(int index, Object obj) {
         //refactored for directional cyclic
-        /*
+
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("The index is incorrect");
         }
@@ -149,9 +149,7 @@ public class CustomList implements ICustomList {
 
         Node current = head;
         Node prev = null;
-        int i = 0;
-
-        while (current.next != head.first) {
+        for (int i = 0; i < size; i++) {
             if (index == i) {
                 Node newNode = new Node(obj);
                 prev.next = newNode;
@@ -161,11 +159,9 @@ public class CustomList implements ICustomList {
             }
             prev = current;
             current = current.next;
-            i++;
-
         }
 
-         */
+
 
     }
 
@@ -173,11 +169,11 @@ public class CustomList implements ICustomList {
     @Override
     public int indexOf(Object obj) {
         //refactored for directional cyclic
-        /*
+
         Node current = head;
         int i = 0;
 
-        while (current.next != head.first) {
+        while (current.next != head) {
             if (current.value.equals(obj)) {
                 return i;
             }
@@ -190,37 +186,37 @@ public class CustomList implements ICustomList {
         }
 
         return -1;
-
-         */
-        return -1; //заглушка
     }
 
 
     @Override
     public Object remove(int index) {
         //refactored for directional cyclic
-        /*
+
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("The index is incorrect");
         }
         Node previous = null;
         Node current = head;
         int i = 0;
+        if (head.next == head) {
+            head = null;
+            return current.value;
+        } else {
+            while (current.next != head) {
 
-        while (current.next != head.first) {
+                if (index == i) {
+                    previous.next = current.next;
+                    size--;
+                    return current.value;
+                }
 
-            if (index == i) {
-                previous.next = current.next;
-                size--;
-                return current.value;
+                previous = current;
+                current = current.next;
+                i++;
             }
-
-            previous = current;
-            current = current.next;
-            i++;
         }
 
-         */
 
         return null;
 

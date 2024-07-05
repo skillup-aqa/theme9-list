@@ -24,8 +24,20 @@ public class ToTestLists {
 
         CustomList List02 = new CustomList();
         List02.push(20);
+        List02.push(21);
         List02.push(22);
-        System.out.println(List02.pop());
+        List02.push(23);
+        List02.push(24);
+        List02.push(25);
+        System.out.println(List02.get(5));
+
+        List02.unshift(19);
+        System.out.println(List02);
+        List02.insert(6, 55);
+        System.out.println(List02);
+        System.out.println(List02.indexOf(19));
+        System.out.println("----------------");
+        System.out.println(List02.remove(2));
         System.out.println(List02);
 
 
