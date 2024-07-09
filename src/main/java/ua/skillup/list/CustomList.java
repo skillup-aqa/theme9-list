@@ -1,48 +1,250 @@
 package ua.skillup.list;
 
+//directional cyclic (25 % 4 + 1 = 2)
+
+import java.util.NoSuchElementException;
+
 public class CustomList implements ICustomList {
+
+    private static class Node {
+        //refactored for directional cyclic
+        Object value;
+        Node next;
+        //Node first;
+
+        public Node(Object value) {
+            this.value = value;
+        }
+    }
+
+    private int size = 0;
+
+    private Node head = null;
+
+
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public Object get(int index) {
+        //refactored for directional cyclic
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node current = head;
+
+        for (int i = 0; i < size; i++) {
+            if (index == i) {
+                return current.value;
+            }
+            current = current.next;}
+
+
         return null;
     }
+
 
     @Override
     public void push(Object obj) {
+        //refactored for directional cyclic
+        Node newNode = new Node(obj);
+        if (head == null) {
+            head = newNode;
+            head.next = head;
+            size++;
+            return;
+        }
+
+        Node current = head;
+
+        while (current.next != head) {
+            current = current.next;
+        }
+        current.next = newNode;
+        newNode.next = head;
+        size++;
 
     }
 
+
     @Override
     public Object pop() {
-        return null;
+        //refactored for directional cyclic
+
+        if (head == null) {
+            throw new NoSuchElementException("There is an empty list. Pop can't be applied");
+        }
+        Object deleted = null;
+        Node current = head;
+        if (head.next == head) {
+            deleted = head.value;
+            head = null;
+        } else {
+            while (current.next.next != head) {
+                current = current.next;
+            }
+            deleted = current.next.value;
+            current.next = head;
+        }
+        size--;
+        return deleted;
     }
 
     @Override
     public Object shift() {
-        return null;
+        //refactored for directional cyclic
+        if (head == null) {
+            throw new NoSuchElementException("There is an empty list. Shift can't be applied");
+        }
+        Node current = head;
+        Node deleted = head;
+        if (head.next == head) {
+            head = null;
+        } else {
+            while (current.next != head) {
+                current = current.next;
+            }
+            current.next = head.next;
+            head = head.next;
+        }
+
+        size--;
+        return deleted.value;
     }
 
     @Override
     public void unshift(Object obj) {
+        //refactored for directional cyclic
+        Node newNode = new Node(obj);
+        if (head == null) {
+            head = newNode;
+            head.next = head;
+        } else {
+            Node current = head;
+            while (current.next != head) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.next = head;
+            head = newNode;
+            size++;
 
+        }
     }
 
     @Override
     public void insert(int index, Object obj) {
+        //refactored for directional cyclic
+
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("The index is incorrect");
+        }
+        if (index == 0) {
+            unshift(obj);
+            return;
+        }
+
+        Node current = head;
+        Node prev = null;
+        for (int i = 0; i < size; i++) {
+            if (index == i) {
+                Node newNode = new Node(obj);
+                prev.next = newNode;
+                newNode.next = current;
+                size++;
+                return;
+            }
+            prev = current;
+            current = current.next;
+        }
+
+
 
     }
+
 
     @Override
     public int indexOf(Object obj) {
-        return 0;
+        //refactored for directional cyclic
+
+        Node current = head;
+        int i = 0;
+
+        while (current.next != head) {
+            if (current.value.equals(obj)) {
+                return i;
+            }
+            i++;
+            current = current.next;
+            if (current.value.equals(obj)) {
+                return i;
+            }
+
+        }
+
+        return -1;
     }
+
 
     @Override
     public Object remove(int index) {
-        return false;
+        //refactored for directional cyclic
+
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("The index is incorrect");
+        }
+        if (index == 0) {
+            return shift();
+        }
+        Node previous = null;
+        Node current = head;
+        if (head.next == head) {
+            head = null;
+            return current.value;
+        } else {
+            for (int i = 0; i < size; i++) {
+
+                if (index == i) {
+                    previous.next = current.next;
+                    size--;
+                    return current.value;
+                }
+
+                previous = current;
+                current = current.next;
+            }
+        }
+
+
+        return null;
+
     }
+
+
+    @Override
+    public String toString() {
+        if (head == null) {
+            return "This is an empty list";
+        } else {
+
+            StringBuilder builder = new StringBuilder("Orders List: \n");
+
+            Node current = head;
+            for (int i = 0; i < size; i++) {
+                builder.append(current.value.toString() + "\n");
+                current = current.next;
+            }
+            builder.append("Size of the list is: ").append(size()).append("; First value " + head.value).append("\n");
+
+            return builder.toString();
+        }
+    }
+
 }
+
+
+
+
