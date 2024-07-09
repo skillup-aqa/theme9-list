@@ -77,20 +77,20 @@ public class CustomList implements ICustomList {
         if (head == null) {
             throw new NoSuchElementException("There is an empty list. Pop can't be applied");
         }
-        Node deleted;
+        Object deleted = null;
+        Node current = head;
         if (head.next == head) {
-            deleted = head;
+            deleted = head.value;
             head = null;
         } else {
-            Node current = head;
-            while (current.next != head) {
-            current = current.next;
-        }
-        deleted = current;
-        current.next = head;
+            while (current.next.next != head) {
+                current = current.next;
+            }
+            deleted = current.next.value;
+            current.next = head;
         }
         size--;
-        return deleted.value;
+        return deleted;
     }
 
     @Override
@@ -193,17 +193,19 @@ public class CustomList implements ICustomList {
     public Object remove(int index) {
         //refactored for directional cyclic
 
-        if (index < 0 || index > size) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("The index is incorrect");
+        }
+        if (index == 0) {
+            return shift();
         }
         Node previous = null;
         Node current = head;
-        int i = 0;
         if (head.next == head) {
             head = null;
             return current.value;
         } else {
-            while (current.next != head) {
+            for (int i = 0; i < size; i++) {
 
                 if (index == i) {
                     previous.next = current.next;
@@ -213,7 +215,6 @@ public class CustomList implements ICustomList {
 
                 previous = current;
                 current = current.next;
-                i++;
             }
         }
 
